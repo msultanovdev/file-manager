@@ -2,6 +2,7 @@ import {rl} from "./utils/helper.js";
 import {up, cd, rn, mv, rm, cf, readFile, createFile, ls} from "./utils/fileFunctionsjs.js";
 import { getCpus, logArch, logEOL, logHomedir, logUsername } from "./utils/osFunctions.js";
 import { toZip, unZip } from "./utils/zipFuntions.js";
+import { calculateFileHash } from "./utils/hashFunctions.js";
 
 const args = process.argv.slice(2);
 const username = args.find(arg => arg.includes("--username")).split("=")[1];
@@ -77,6 +78,16 @@ async function handleCommand(command) {
       const sourcePath = args[0];
       const destinationPath = args[1];
       unZip(sourcePath, destinationPath);
+    }
+    if (command.startsWith("hash")) {
+      const filePath = command.slice(5).trim();
+      calculateFileHash(filePath)
+      .then((fileHash) => {
+        console.log(`Hash of ${filePath}: ${fileHash}`);
+      })
+      .catch((error) => {
+        console.error(`Error calculating hash: ${error.message}`);
+      });
     }
     else {
       console.log(`Command received: ${command}`);
