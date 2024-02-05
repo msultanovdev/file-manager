@@ -1,22 +1,24 @@
 import {rl} from "./utils/helper.js";
-import {up} from "./utils/fileFunctionsjs.js";
+import {up, cd} from "./utils/fileFunctionsjs.js";
 
 const args = process.argv.slice(2);
 const username = args.find(arg => arg.includes("--username")).split("=")[1];
 console.log(`Welcome to the File Manager, ${username}!`);
 
-function handleCommand(command) {
-    switch (command) {
-      case ".exit":
-      case "exit":
-        console.log(`Thank you for using File Manager, ${username}, goodbye!`);
-        process.exit(0);
-        break;
-      case "up":
-        up();
-      default:
-        console.log(`Command received: ${command}`);
-  }
+async function handleCommand(command) {
+    if (command === ".exit" || command === "exit") {
+      console.log(`Thank you for using File Manager, ${username}, goodbye!`);
+      process.exit(0);
+    } 
+    if (command === "up") {
+      up();
+    } 
+    if (command.startsWith("cd")) {
+      cd(command.slice(3).trim());
+    } 
+    else {
+      console.log(`Command received: ${command}`);
+    }
 }
 
 async function userInput() {
