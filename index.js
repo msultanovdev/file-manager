@@ -1,6 +1,6 @@
 import {rl} from "./utils/helper.js";
 import {up, cd, rn, mv, rm, cf, readFile, createFile, ls} from "./utils/fileFunctionsjs.js";
-import { getCpus, logEOL } from "./utils/osFunctions.js";
+import { getCpus, logEOL, logHomedir, logUsername } from "./utils/osFunctions.js";
 
 const args = process.argv.slice(2);
 const username = args.find(arg => arg.includes("--username")).split("=")[1];
@@ -55,6 +55,12 @@ async function handleCommand(command) {
     }
     if (command === "ls") {
       ls();
+    }
+    if (command === "os --homedir") {
+      logHomedir();
+    }
+    if (command === "os --username") {
+      logUsername();
     }
     else {
       console.log(`Command received: ${command}`);

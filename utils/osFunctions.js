@@ -22,3 +22,21 @@ export function getCpus() {
     console.error(`Error getting CPU information: ${error.message}`);
   }
 }
+
+export function logHomedir() {
+  try {
+    const homedir = os.homedir();
+    console.log(`Home directory: ${homedir}`);
+  } catch (error) {
+    console.error(`Error getting home directory: ${error.message}`);
+  }
+}
+
+export function logUsername() {
+  try {
+    const userInfo = os.userInfo();
+    console.log(`Current system username: ${userInfo.username}`);
+  } catch (error) {
+    console.error(`Error getting system username: ${error.message}`);
+  }
+}
