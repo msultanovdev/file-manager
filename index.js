@@ -1,5 +1,5 @@
 import {rl} from "./utils/helper.js";
-import {up, cd, rn, mv, rm, cf, readFile, createFile} from "./utils/fileFunctionsjs.js";
+import {up, cd, rn, mv, rm, cf, readFile, createFile, ls} from "./utils/fileFunctionsjs.js";
 import { getCpus, logEOL } from "./utils/osFunctions.js";
 
 const args = process.argv.slice(2);
@@ -52,6 +52,9 @@ async function handleCommand(command) {
     }
     if (command === "os --cpus") {
       getCpus();
+    }
+    if (command === "ls") {
+      ls();
     }
     else {
       console.log(`Command received: ${command}`);

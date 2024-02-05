@@ -135,3 +135,16 @@ export function createFile(fileName) {
   }
   printCurrentWorkingDirectory();
 }
+
+export function ls() {
+  const currentPath = process.cwd();
+  const contents = fs.readdirSync(currentPath).sort();
+  console.log("List of contents:");
+  for(let i = 0; i < contents.length; i++) {
+    const fullPath = path.join(currentPath, contents[i]);
+    const isDirectory = fs.statSync(fullPath).isDirectory();
+    const type = isDirectory ? "directory" : "file";
+    const formattedName = isDirectory ? contents[i] + "/" : contents[i];
+    console.log(`${i + 1}: ${formattedName}\t${type}`);
+  }
+}
