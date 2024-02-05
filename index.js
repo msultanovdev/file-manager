@@ -1,6 +1,7 @@
 import {rl} from "./utils/helper.js";
 import {up, cd, rn, mv, rm, cf, readFile, createFile, ls} from "./utils/fileFunctionsjs.js";
 import { getCpus, logArch, logEOL, logHomedir, logUsername } from "./utils/osFunctions.js";
+import { toZip, unZip } from "./utils/zipFuntions.js";
 
 const args = process.argv.slice(2);
 const username = args.find(arg => arg.includes("--username")).split("=")[1];
@@ -64,6 +65,18 @@ async function handleCommand(command) {
     }
     if (command === "os --architecture") {
       logArch();
+    }
+    if (command.startsWith("compress")) {
+      const args = command.slice(8).trim().split(" ");
+      const sourcePath = args[0];
+      const destinationPath = args[1];
+      toZip(sourcePath, destinationPath);
+    }
+    if (command.startsWith("decompress")) {
+      const args = command.slice(10).trim().split(" ");
+      const sourcePath = args[0];
+      const destinationPath = args[1];
+      unZip(sourcePath, destinationPath);
     }
     else {
       console.log(`Command received: ${command}`);
