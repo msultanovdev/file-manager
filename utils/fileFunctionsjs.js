@@ -105,3 +105,33 @@ export function cf(sourcePath, targetPath) {
     });
     readStream.pipe(writeStream);
 }
+
+export function readFile(filePath) {
+  const fullPath = path.resolve(process.cwd(), filePath);
+  try {
+    const fileStream = fs.createReadStream(fullPath);
+    fileStream.on("data", (chunk) => {
+      console.log(chunk.toString());
+    });
+    fileStream.on("end", () => {
+      console.log(`File "${filePath}" read successfully.`);
+    });
+    fileStream.on("error", (error) => {
+      console.error(`Error reading file "${filePath}": ${error.message}`);
+    });
+  } catch (error) {
+      console.error(`Failed to read file "${filePath}": ${error.message}`);
+  }
+  printCurrentWorkingDirectory();
+}
+
+export function createFile(fileName) {
+  const fullPath = path.resolve(process.cwd(), fileName);
+  try {
+    fs.writeFileSync(fullPath, "");
+    console.log(`File "${fileName}" created successfully.`);
+  } catch (error) {
+    console.error(`Failed to create file "${fileName}": ${error.message}`);
+  }
+  printCurrentWorkingDirectory();
+}
