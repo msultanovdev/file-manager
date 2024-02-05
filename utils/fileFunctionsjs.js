@@ -1,5 +1,5 @@
 import path from "path";
-import fs from "fs";
+import fs, { cp } from "fs";
 import { printCurrentWorkingDirectory } from "../index.js";
 
 export const up = () => {
@@ -83,3 +83,25 @@ export function rm(filePath) {
     printCurrentWorkingDirectory();
 }
   
+export function cf(sourcePath, targetPath) {
+    const sourceFile = path.resolve(sourcePath);
+    const targetFile = path.resolve(targetPath, path.basename(sourcePath));
+    const targetDir = path.dirname(targetFile);
+    if (!fs.existsSync(targetDir)) {
+      console.error(`Error: Target directory "${targetDir}" does not exist.`);
+      return;
+    }
+    const readStream = fs.createReadStream(sourceFile);
+    readStream.on("error", (err) => {
+      console.error(`Error reading file "${sourceFile}": ${err.message}`);
+    });
+    const writeStream = fs.createWriteStream(targetFile);
+    writeStream.on("error", (err) => {
+      console.error(`Error writing to file "${targetFile}": ${err.message}`);
+      readStream.close();
+    });
+    writeStream.on("close", () => {
+      console.log(`File '${sourcePath}' copied to '${targetPath}' successfully.`);
+    });
+    readStream.pipe(writeStream);
+}
