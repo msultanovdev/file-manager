@@ -63,3 +63,23 @@ export function mv(sourcePath, targetPath) {
     }
   });
 }
+
+export function rm(filePath) {
+  const fullPath = path.resolve(process.cwd(), filePath);
+  if (!fs.existsSync(fullPath)) {
+    console.error(`Error: File "${filePath}" does not exist.`);
+      return;
+  }
+  try {
+    const result = fs.unlinkSync(fullPath);
+    if (result === undefined) {
+      console.log(`File '${filePath}' removed successfully.`);
+    } else {
+      console.error(`Failed to remove file '${filePath}': Unknown error.`);
+    }
+    } catch (error) {
+      console.error(`Failed to remove file '${filePath}': ${error.message}`);
+    }
+    printCurrentWorkingDirectory();
+}
+  
