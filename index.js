@@ -1,5 +1,6 @@
 import {rl} from "./utils/helper.js";
 import {up, cd, rn, mv, rm, cf, readFile, createFile} from "./utils/fileFunctionsjs.js";
+import { getCpus, logEOL } from "./utils/osFunctions.js";
 
 const args = process.argv.slice(2);
 const username = args.find(arg => arg.includes("--username")).split("=")[1];
@@ -45,6 +46,12 @@ async function handleCommand(command) {
     if (command.startsWith("add")) {
       const fileName = command.slice(4).trim();
       createFile(fileName);
+    }
+    if (command === "os" || command === "os --EOL") {
+      logEOL();
+    }
+    if (command === "os --cpus") {
+      getCpus();
     }
     else {
       console.log(`Command received: ${command}`);
