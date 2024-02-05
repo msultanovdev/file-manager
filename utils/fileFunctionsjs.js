@@ -44,3 +44,22 @@ export function rn(oldFileName, newFileName) {
     printCurrentWorkingDirectory();
   });
 }
+
+export function mv(sourcePath, targetPath) {
+  const sourceFile = path.resolve(sourcePath);
+  const targetFile = path.resolve(targetPath, path.basename(sourcePath));
+  const targetDir = path.dirname(targetFile);
+  if (!fs.existsSync(targetDir)) {
+    console.error(`Error: Target directory "${targetDir}" does not exist.`);
+    return;
+  }
+  fs.rename(sourceFile, targetFile, (err) => {
+    if (err) {
+      console.error(`Error moving file: ${err.message}`);
+    } else {
+      console.log(
+        `File '${sourcePath}' moved to '${targetPath}' successfully.`
+      );
+    }
+  });
+}
