@@ -1,5 +1,5 @@
 import {rl} from "./utils/helper.js";
-import {up, cd} from "./utils/fileFunctionsjs.js";
+import {up, cd, rn} from "./utils/fileFunctionsjs.js";
 
 const args = process.argv.slice(2);
 const username = args.find(arg => arg.includes("--username")).split("=")[1];
@@ -16,6 +16,12 @@ async function handleCommand(command) {
     if (command.startsWith("cd")) {
       cd(command.slice(3).trim());
     } 
+    if (command.startsWith("rn")) {
+      const args = command.slice(3).trim().split(" ");
+      const oldFileName = args[0];
+      const newFileName = args[1];
+      rn(oldFileName, newFileName);
+    }
     else {
       console.log(`Command received: ${command}`);
     }

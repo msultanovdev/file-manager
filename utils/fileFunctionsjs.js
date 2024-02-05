@@ -31,3 +31,16 @@ export const cd = (targetPath) => {
       printCurrentWorkingDirectory();
   });
 };
+
+export function rn(oldFileName, newFileName) {
+    const oldFullPath = path.resolve(process.cwd(), oldFileName);
+    const newFullPath = path.resolve(process.cwd(), newFileName);
+  fs.rename(oldFullPath, newFullPath, (error) => {
+    if (error) {
+      console.error(`Failed to rename file "${oldFileName}": ${error.message}`);
+    } else {
+      console.log(`File "${oldFileName}" renamed to "${newFileName}" successfully.`);
+    }
+    printCurrentWorkingDirectory();
+  });
+}
