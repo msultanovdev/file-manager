@@ -1,4 +1,6 @@
 import {rl} from "./utils/helper.js";
+import {up} from "./utils/fileFunctionsjs.js";
+
 const args = process.argv.slice(2);
 const username = args.find(arg => arg.includes("--username")).split("=")[1];
 console.log(`Welcome to the File Manager, ${username}!`);
@@ -10,6 +12,8 @@ function handleCommand(command) {
         console.log(`Thank you for using File Manager, ${username}, goodbye!`);
         process.exit(0);
         break;
+      case "up":
+        up();
       default:
         console.log(`Command received: ${command}`);
   }
@@ -17,7 +21,7 @@ function handleCommand(command) {
 
 async function userInput() {
     const command = await new Promise((resolve) =>
-      rl.question("> ", resolve)
+      rl.question(">> ", resolve)
     );
     handleCommand(command);
     userInput();
@@ -28,6 +32,12 @@ process.on("SIGINT", () => {});
 process.on("beforeExit", () => {
     console.log(`Thank you for using File Manager, ${username}, goodbye!`);
 });
+
+export function printCurrentWorkingDirectory() {
+  console.log(`You are currently in ${process.cwd()}`);
+}
+
+printCurrentWorkingDirectory();
 
 userInput();
   
